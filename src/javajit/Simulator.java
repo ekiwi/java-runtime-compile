@@ -1,3 +1,5 @@
+package javajit;
+
 public interface Simulator {
     int peek(String var);
 
