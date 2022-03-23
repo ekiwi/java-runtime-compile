@@ -10,6 +10,7 @@ scalacOptions ++= Seq(
 )
 
 
+libraryDependencies += "com.lihaoyi" %% "os-lib" % "0.8.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
 
 

@@ -7,7 +7,8 @@ package javajit
 
 object SampleTestBench {
   def main(args: Array[String]): Unit = {
-    val sim = Compiler.compile(args(0))
+    val filename = os.Path(args(0), os.pwd)
+    val sim = Compiler.compile(filename)
     sim.poke("io_a", 7)
     sim.poke("io_b", 10)
     sim.step()

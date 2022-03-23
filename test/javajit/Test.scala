@@ -28,7 +28,7 @@ class Test extends AnyFreeSpec {
   }
 
   "compile and load java code" in {
-    val sim = Compiler.compileCode(src, "GCD")
+    val sim = Compiler.compile("GCD", src)
     assert(sim.peek("123") == -1)
   }
 
