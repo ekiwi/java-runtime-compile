@@ -24,8 +24,9 @@ object Compiler {
 
   private def loadClass(javaClass: Path, name: String): Simulator = {
     val classUrl = javaClass.getParent.toFile.toURI.toURL
-    val classLoader = URLClassLoader.newInstance(Array[java.net.URL](classUrl))
-    val cls = Class.forName(name, true, classLoader)
+    val currentClassLoader = Thread.currentThread.getContextClassLoader
+    val classLoader = URLClassLoader.newInstance(Array[java.net.URL](classUrl), currentClassLoader)
+    val cls = classLoader.loadClass(name)
     val instance = cls.getDeclaredConstructor().newInstance()
     instance.asInstanceOf[Simulator]
   }

@@ -12,7 +12,6 @@ scalacOptions ++= Seq(
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
 
-fork := true
 
 Compile / scalaSource := baseDirectory.value / "src"
 Test / scalaSource := baseDirectory.value / "test"
