@@ -1,0 +1,19 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scala: [2.12.15, 2.13.7]
+        jvm: [adopt@1.8, openjdk@1.11, openjdk@1.14, openjdk@1.17, graalvm@]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Scala
+      uses: olafurpg/setup-scala@v11
+      with:
+        java-version: ${{ matrix.jvm }}
+    - name: Scala Unit Tests
+      run: sbt ++${{ matrix.scala }} test

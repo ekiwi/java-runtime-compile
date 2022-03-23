@@ -1,6 +1,6 @@
 ThisBuild / scalaVersion     := "2.13.7"
 ThisBuild / version          := "2.5.0"
-
+ThisBuild / crossScalaVersions := Seq("2.12.15", "2.13.7")
 
 scalacOptions ++= Seq(
   "-language:reflectiveCalls",
