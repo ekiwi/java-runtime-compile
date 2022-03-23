@@ -21,6 +21,12 @@ class Test extends AnyFreeSpec {
       |
       |""".stripMargin
 
+  "compiler helper should return the current class path" in {
+    val classPath = CompilerHelpers.getClassPath
+    println("The class path is:")
+    println(classPath.mkString("\n"))
+  }
+
   "compile and load java code" in {
     val sim = Compiler.compileCode(src, "GCD")
     assert(sim.peek("123") == -1)

@@ -30,9 +30,12 @@ object Compiler {
     instance.asInstanceOf[Simulator]
   }
 
+  import CompilerHelpers._
+
   private def compileSource(javaFile: Path, name: String): Path = {
     val compiler = ToolProvider.getSystemJavaCompiler
-    compiler.run(null, null, null, javaFile.toFile.getAbsolutePath)
+    // explicitly specify the class path
+    compiler.run(null, null, null, "-classpath", getClassPath.mkString(":"), javaFile.toFile.getAbsolutePath)
     javaFile.getParent.resolve(name + ".class")
   }
 
@@ -47,5 +50,18 @@ object Compiler {
     val separator = System.getProperty("line.separator")
     val reader = new BufferedReader(new InputStreamReader(stream))
     reader.lines.collect(Collectors.joining(separator))
+  }
+}
+
+private object CompilerHelpers {
+  /** Returns the current class path, taking into account sbt's layered class loader strategy */
+  def getClassPath: Seq[String] = {
+    val loader = Thread.currentThread().getContextClassLoader
+    loader match {
+      // this matches sbt's layered class loader from which we can extract the local class path
+      case url : URLClassLoader => url.getURLs.map(_.getPath)
+      // in a forked JVM, the default Java class loader will be active and we can just use the system path
+      case _ => System.getProperty("java.class.path").split(':')
+    }
   }
 }
